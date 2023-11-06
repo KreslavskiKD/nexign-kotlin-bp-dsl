@@ -1,25 +1,40 @@
-import com.nexign.dsl.tryout.scenario
+import com.nexign.dsl.tryout.arithmeticscenario.ComputePerimeter
+import com.nexign.dsl.tryout.arithmeticscenario.ComputeSquare
+import com.nexign.dsl.tryout.arithmeticscenario.ValidateOr
+import com.nexign.dsl.tryout.base.Scenario
+
 
 fun main(args: Array<String>) {
-
-    scenario {
-        consume(25.0, 4.0)
-        validateOr {
-            println(error)
-        }
-        computeSquare()
-    } process { result ->
-        println(result)
+    val arithmeticScenario = Scenario(
+        params = mapOf(
+            "a" to 3.9,
+            "b" to 28.0,
+        ),
+        operations = listOf(
+            ValidateOr {
+                println("Failed to run scenario: " + it.message)
+            },
+            ComputeSquare(),
+            ComputePerimeter(),
+        )
+    ) run { results ->
+        println("Square is " + results["square"])
+        println("Perimeter is " + results["perimeter"])
     }
 
-    scenario {
-        consume(1.0, 4.0)
-        validateOr {
-            println(error)
-        }
-        computeSquare()
-    } process { result ->
-        println(result)
+    val arithmeticScenario2 = Scenario(
+        params = mapOf(
+            "a" to 0.5,
+            "b" to 25.7,
+        ),
+        operations = listOf(
+            ValidateOr {
+                println("Failed to run scenario: " + it.message)
+            },
+            ComputeSquare(),
+            ComputePerimeter(),
+        )
+    ) run { results ->
+        println("Square is " + results["square"])
     }
-
 }

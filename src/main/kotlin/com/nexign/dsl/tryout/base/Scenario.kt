@@ -1,21 +1,21 @@
-package com.nexign.dsl.tryout
+package com.nexign.dsl.tryout.base
 
 @DslMarker
 annotation class ScenarioDSL
 
 @ScenarioDSL
-abstract class Scenario (
-    protected val params: Map<String, Any>,
+class Scenario(
+    val params: Map<String, Any>,
     protected val operations: List<Operation>,
+) : Operation(
+    nestedOperations = operations,
+    func = { true },
 ) {
-    protected var results: MutableMap<String, Any> = mutableMapOf()
+    val results: MutableMap<String, Any> = mutableMapOf()
 
-    fun getExecutionHistory() {
-
-    }
-
-    fun generateSpecification() {
-
+    infix fun run(processFunc: (Map<String, Any>) -> Unit) {
+        start(this)
+        processFunc(results)
     }
 }
 

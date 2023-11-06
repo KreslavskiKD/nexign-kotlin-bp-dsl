@@ -1,4 +1,4 @@
-package com.nexign.dsl.tryout
+package com.nexign.dsl.tryout.exceptions
 
 object Errors {
     const val BOUNDS_LESS_ERROR_A = "Error: 'a' value is less than 3"

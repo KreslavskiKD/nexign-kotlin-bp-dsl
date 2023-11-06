@@ -3,7 +3,7 @@ package com.nexign.dsl.tryout
 import org.junit.jupiter.api.Assertions.*
 import kotlin.test.Test
 
-class ScenarioTest {
+class ScenarioOldTest {
     private val delta = 0.000005
 
     @Test
