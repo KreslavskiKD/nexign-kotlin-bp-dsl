@@ -1,6 +1,7 @@
 package com.nexign.dsl.tryout.arithmeticscenario
 
 import com.nexign.dsl.tryout.base.Operation
+import com.nexign.dsl.tryout.base.ScenarioStatus
 
 class ComputeSquare: Operation (
     func = {
@@ -8,7 +9,7 @@ class ComputeSquare: Operation (
         val b = this.params["b"] as Double
         this.results["square"] = a * b
 
-        true
+        ScenarioStatus.CONTINUE
     },
     nestedOperations = listOf()
 )

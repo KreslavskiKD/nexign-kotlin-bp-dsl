@@ -16,7 +16,6 @@ class ScenarioTest {
             scenarioPair.first.run { results ->
                 assertEquals(results["square"] as Double, scenarioPair.second, delta)
             }
-
         }
     }
 

@@ -4,20 +4,16 @@ import com.nexign.dsl.tryout.specification.SpecificationNode
 
 open class Operation (
     protected val nestedOperations: List<Operation>,
-    protected val func: Scenario.() -> Boolean
+    protected val func: Scenario.() -> ScenarioStatus
 ) {
-    fun start(scenario: Scenario): Boolean {
+    fun start(scenario: Scenario): ScenarioStatus {
         var cont = scenario.func()
-        if (!cont) {
-            return false
-        }
+        if (cont == ScenarioStatus.STOP) return cont
         for (op in nestedOperations) {
             cont = op.start(scenario)
-            if (!cont) {
-                return false
-            }
+            if (cont == ScenarioStatus.STOP) return cont
         }
-        return true
+        return ScenarioStatus.CONTINUE
     }
 
     fun getSpecification(): SpecificationNode =

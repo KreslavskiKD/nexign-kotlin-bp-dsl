@@ -2,6 +2,7 @@ package com.nexign.dsl.tryout.arithmeticscenario
 
 import com.nexign.dsl.tryout.base.Operation
 import com.nexign.dsl.tryout.base.Scenario
+import com.nexign.dsl.tryout.base.ScenarioStatus
 import com.nexign.dsl.tryout.exceptions.Errors
 import com.nexign.dsl.tryout.exceptions.IllegalScenarioArgumentException
 
@@ -9,7 +10,7 @@ class ValidateOr (
     private val orFunc: Scenario.(e :Exception) -> Unit,
 ): Operation (
     func = {
-        var continueExecution = true
+        var continueExecution = ScenarioStatus.CONTINUE
         try {
             val a = this.params["a"] as Double
             val b = this.params["b"] as Double
@@ -27,7 +28,7 @@ class ValidateOr (
             }
         } catch (e :IllegalScenarioArgumentException) {
             this.orFunc(e)
-            continueExecution = false
+            continueExecution = ScenarioStatus.STOP
         }
         continueExecution
     },

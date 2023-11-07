@@ -9,7 +9,7 @@ class Scenario(
     protected val operations: List<Operation>,
 ) : Operation(
     nestedOperations = operations,
-    func = { true },
+    func = { ScenarioStatus.CONTINUE },
 ) {
     val results: MutableMap<String, Any> = mutableMapOf()
 
