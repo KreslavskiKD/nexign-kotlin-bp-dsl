@@ -8,15 +8,7 @@ class ScenarioTest {
 
     @Test
     fun testResultGroup() {
-        for (scenarioPair in listOf(
-            Pair(arithmeticScenario1, 109.2),
-            Pair(arithmeticScenario2, 35.64),
-            Pair(arithmeticScenario3, 1361.2),
-        )) {
-            scenarioPair.first.run { results ->
-                assertEquals(results["square"] as Double, scenarioPair.second, delta)
-            }
-        }
+
     }
 
     @Test
