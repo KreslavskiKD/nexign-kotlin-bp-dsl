@@ -1,6 +1,6 @@
 package com.nexign.dsl.tryout.base
 
-open class Operation () {
+open class Operation {
     protected open val specification : Specification = Specification()
     protected open val func : Scenario.() -> TransitionCondition = { TransitionCondition() }
 
@@ -28,10 +28,35 @@ open class Operation () {
         specification[SINGLE_ROUTE()] = op
         return this
     }
+
+    infix fun binary(binaryChoice: BinaryChoice) : Operation {
+        specification[YES()] = binaryChoice.yesOperation
+        specification[NO()] = binaryChoice.noOperation
+        return this
+    }
 }
 
 fun operation(init: Operation.() -> Unit) : Operation {
     val operation = Operation()
     operation.init()
     return operation
+}
+
+class BinaryChoice() {
+    lateinit var yesOperation: Operation
+    lateinit var noOperation: Operation
+
+    fun yes(op: Operation) {
+        yesOperation = op
+    }
+
+    fun no(op: Operation) {
+        noOperation = op
+    }
+}
+
+fun choice(init: BinaryChoice.() -> Unit) : BinaryChoice {
+    val bc = BinaryChoice()
+    bc.init()
+    return bc
 }

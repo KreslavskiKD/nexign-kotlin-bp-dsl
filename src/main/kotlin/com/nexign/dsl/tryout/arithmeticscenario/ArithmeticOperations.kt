@@ -5,7 +5,7 @@ import com.nexign.dsl.tryout.exceptions.Errors
 import com.nexign.dsl.tryout.exceptions.IllegalScenarioArgumentException
 
 class ComputePerimeter: Operation() {
-    override val specification: Specification = specification {
+    override val specification: Specification = initCustomSpecification {
         setTransition(SINGLE_ROUTE(), PrintResults())
     }
 
@@ -16,7 +16,7 @@ class ComputePerimeter: Operation() {
 }
 
 class ComputeSquare: Operation() {
-    override val specification: Specification = specification {
+    override val specification: Specification = initCustomSpecification {
         setTransition(SINGLE_ROUTE(), ComputePerimeter())
     }
 

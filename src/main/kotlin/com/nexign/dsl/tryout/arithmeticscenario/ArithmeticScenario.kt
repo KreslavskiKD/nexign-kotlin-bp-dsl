@@ -13,15 +13,11 @@ class ArithmeticScenario(
             "b" to b,
         )
 
-    override val specification: Specification = specification {
-        setTransition(
-            START_EXECUTION(), object : ValidateOr() {
-                override val specification: Specification = specification {
-                    setTransition(YES(), ComputeSquare() next ComputePerimeter() next PrintResults())
-                    setTransition(NO(), PrintError())
-                }
+    override val specification: Specification = specification(
+            ValidateOr() binary choice {
+                yes( ComputeSquare() next ComputePerimeter() next PrintResults())
+                no(PrintError())
             }
         )
-    }
 
 }

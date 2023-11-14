@@ -9,32 +9,24 @@ class ExampleScenario(
     private val action: Action,
 ) : Scenario()  {
 
-    // This part can probably be automated in Scenario class
+    // This part can probably be automated in Scenario class, but I am not yet sure how
     override val params: Map<String, Any>
         get() = mutableMapOf(
             "abonent" to abonent,
             "action" to action,
         )
 
-    // Not sure if it looks pretty enough
-    override val specification: Specification = specification {
-        // This first setTransition probably can be lifted in abstract class, but I am not sure yet
-        setTransition(START_EXECUTION(),
-            GetAbonentInfo() next object : CheckAbonentActions() {
-                // May be should be added some infix function for binary choices, because I guess it is a quite frequent thing to appear
-                override val specification: Specification = specification {
-                    setTransition(YES(), ProlongAction() next notifyAboutActionTimePeriod next end)
-                    setTransition(NO(), ActivateAction() next object : WriteOffMoney() {
-                        override val specification: Specification = specification {
-                            setTransition(YES(), CancelActionActivation() next NotifyAction("error when activating action") next end)
-                            setTransition(NO(), NotifyAction("action activation") next notifyAboutActionTimePeriod)
-                        }
-                    })
-                }
+    // Made it a little prettier, than before
+    override val specification: Specification = specification (
+            GetAbonentInfo() next CheckAbonentActions() binary choice {
+                yes(ProlongAction() next notifyAboutActionTimePeriod next end)
+                no(ActivateAction() next WriteOffMoney() binary choice {
+                    yes(CancelActionActivation() next NotifyAction("error when activating action") next end)
+                    no(NotifyAction("action activation") next notifyAboutActionTimePeriod)
+                })
             }
-
         )
-    }
+
 
     companion object {
 
@@ -42,6 +34,7 @@ class ExampleScenario(
         val end = object : Operation() {
             override val func: Scenario.() -> TransitionCondition = { STOP_EXECUTION() }
         }
+
         val notifyAboutActionTimePeriod = NotifyAction("action time period") next end
     }
 }
