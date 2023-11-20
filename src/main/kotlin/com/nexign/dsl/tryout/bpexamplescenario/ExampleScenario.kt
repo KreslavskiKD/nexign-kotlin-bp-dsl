@@ -18,14 +18,19 @@ class ExampleScenario(
 
     // Made it a little prettier, than before
     override val specification: Specification = specification (
-            GetAbonentInfo() next CheckAbonentActions() binary choice {
+            GetAbonentInfo() next CheckAbonentActions() binary {
                 yes(ProlongAction() next notifyAboutActionTimePeriod next end)
-                no(ActivateAction() next WriteOffMoney() binary choice {
-                    yes(CancelActionActivation() next NotifyAction("error when activating action") next end)
-                    no(NotifyAction("action activation") next notifyAboutActionTimePeriod)
+                no(ActivateAction() next WriteOffMoney() multiple {
+                    +(YES() to (CancelActionActivation() next NotifyAction("error when activating action") next end))
+                    +(NO() to (NotifyAction("action activation") next notifyAboutActionTimePeriod))
+                    // or
+                    +(1 to (CancelActionActivation() next NotifyAction("error when activating action") next end))
+                    +(2 to (NotifyAction("action activation") next notifyAboutActionTimePeriod))
+                    +(3 to end)
+                    // ... and so on
                 })
             }
-        )
+    )
 
 
     companion object {

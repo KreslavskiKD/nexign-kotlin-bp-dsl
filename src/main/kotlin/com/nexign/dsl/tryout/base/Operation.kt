@@ -29,9 +29,20 @@ open class Operation {
         return this
     }
 
-    infix fun binary(binaryChoice: BinaryChoice) : Operation {
+    infix fun binary(init: BinaryChoice.() -> Unit) : Operation {
+        val binaryChoice = BinaryChoice()
+        binaryChoice.init()
         specification[YES()] = binaryChoice.yesOperation
         specification[NO()] = binaryChoice.noOperation
+        return this
+    }
+
+    infix fun multiple(init: MultipleChoiceBuilder.() -> Unit) : Operation {
+        val mc = MultipleChoiceBuilder()
+        mc.init()
+        for (p in mc.choices) {
+            specification[p.first] = p.second
+        }
         return this
     }
 }
@@ -42,7 +53,7 @@ fun operation(init: Operation.() -> Unit) : Operation {
     return operation
 }
 
-class BinaryChoice() {
+class BinaryChoice {
     lateinit var yesOperation: Operation
     lateinit var noOperation: Operation
 
@@ -55,8 +66,14 @@ class BinaryChoice() {
     }
 }
 
-fun choice(init: BinaryChoice.() -> Unit) : BinaryChoice {
-    val bc = BinaryChoice()
-    bc.init()
-    return bc
+class MultipleChoiceBuilder {
+    val choices = mutableListOf<Pair<TransitionCondition, Operation>>()
+
+    operator fun Pair<TransitionCondition, Operation>.unaryPlus() {
+        choices += this
+    }
+
+    operator fun Pair<Int, Operation>.unaryPlus() {
+        choices += Pair(NumberedTC(this.first), this.second)
+    }
 }

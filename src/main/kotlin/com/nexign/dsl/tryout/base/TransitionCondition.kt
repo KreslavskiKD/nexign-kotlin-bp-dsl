@@ -11,3 +11,5 @@ open class BinaryTC : TransitionCondition()
 
 class YES : BinaryTC()
 class NO : BinaryTC()
+
+class NumberedTC(val number: Int) : TransitionCondition()

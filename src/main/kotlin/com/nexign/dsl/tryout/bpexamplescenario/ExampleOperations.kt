@@ -70,9 +70,9 @@ open class WriteOffMoney : Operation() {
         var transitionCondition: TransitionCondition = YES()
 
         // decision imitation
-        val isThereEnouthMoney: Boolean = Random.nextBoolean()
+        val isThereEnoughMoney: Boolean = Random.nextBoolean()
         // Do something
-        if (isThereEnouthMoney) {
+        if (isThereEnoughMoney) {
             transitionCondition = NO()
         }
         transitionCondition
