@@ -5,31 +5,25 @@ import com.nexign.dsl.tryout.exceptions.Errors
 import com.nexign.dsl.tryout.exceptions.IllegalScenarioArgumentException
 
 class ComputePerimeter: Operation() {
-    override val specification: Specification = initCustomSpecification {
-        setTransition(SINGLE_ROUTE(), PrintResults())
-    }
 
     override val func: Scenario.() -> TransitionCondition = {
         this.results["perimeter"] = (this.params["a"] as Double + this.params["b"] as Double) * 2
-        SINGLE_ROUTE()
+        SINGLE_ROUTE
     }
 }
 
 class ComputeSquare: Operation() {
-    override val specification: Specification = initCustomSpecification {
-        setTransition(SINGLE_ROUTE(), ComputePerimeter())
-    }
 
     override val func: Scenario.() -> TransitionCondition = {
-        this.results["perimeter"] = (this.params["a"] as Double * this.params["b"] as Double)
-        SINGLE_ROUTE()
+        this.results["square"] = (this.params["a"] as Double * this.params["b"] as Double)
+        SINGLE_ROUTE
     }
 }
 
 open class ValidateOr: Operation () {
 
     override val func : Scenario.() -> TransitionCondition = {
-        var continueExecution: TransitionCondition = YES()
+        var continueExecution: TransitionCondition = YES
         try {
             val a = this.params["a"] as Double
             val b = this.params["b"] as Double
@@ -47,7 +41,7 @@ open class ValidateOr: Operation () {
             }
         } catch (e : IllegalScenarioArgumentException) {
             this.results["error"] = e.message!!
-            continueExecution = NO()
+            continueExecution = NO
         }
         continueExecution
     }
@@ -55,14 +49,14 @@ open class ValidateOr: Operation () {
 
 class PrintResults: Operation() {
     override val func: Scenario.() -> TransitionCondition = {
-        println(this.results["square"])
-        STOP_EXECUTION()
+        println("square = " + this.results["square"])
+        STOP_EXECUTION
     }
 }
 
 class PrintError: Operation() {
     override val func: Scenario.() -> TransitionCondition = {
         println(this.results["error"])
-        STOP_EXECUTION()
+        STOP_EXECUTION
     }
 }

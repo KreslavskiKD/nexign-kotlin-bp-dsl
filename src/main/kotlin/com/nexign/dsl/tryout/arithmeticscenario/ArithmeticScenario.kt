@@ -14,7 +14,7 @@ class ArithmeticScenario(
         )
 
     override val specification: Specification = specification(
-            ValidateOr() binary choice {
+            ValidateOr() binary {
                 yes( ComputeSquare() next ComputePerimeter() next PrintResults())
                 no(PrintError())
             }

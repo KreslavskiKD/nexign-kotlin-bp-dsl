@@ -25,15 +25,15 @@ open class Operation {
 //        )
 
     infix fun next(op: Operation) : Operation {
-        specification[SINGLE_ROUTE()] = op
+        specification[SINGLE_ROUTE] = op
         return this
     }
 
     infix fun binary(init: BinaryChoice.() -> Unit) : Operation {
         val binaryChoice = BinaryChoice()
         binaryChoice.init()
-        specification[YES()] = binaryChoice.yesOperation
-        specification[NO()] = binaryChoice.noOperation
+        specification[YES] = binaryChoice.yesOperation
+        specification[NO] = binaryChoice.noOperation
         return this
     }
 
@@ -73,7 +73,7 @@ class MultipleChoiceBuilder {
         choices += this
     }
 
-    operator fun Pair<Int, Operation>.unaryPlus() {
+    operator fun Pair<Int, Operation>.unaryMinus() {
         choices += Pair(NumberedTC(this.first), this.second)
     }
 }

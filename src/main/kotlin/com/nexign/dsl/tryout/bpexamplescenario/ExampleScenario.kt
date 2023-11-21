@@ -21,12 +21,12 @@ class ExampleScenario(
             GetAbonentInfo() next CheckAbonentActions() binary {
                 yes(ProlongAction() next notifyAboutActionTimePeriod next end)
                 no(ActivateAction() next WriteOffMoney() multiple {
-                    +(YES() to (CancelActionActivation() next NotifyAction("error when activating action") next end))
-                    +(NO() to (NotifyAction("action activation") next notifyAboutActionTimePeriod))
+                    +(YES to (CancelActionActivation() next NotifyAction("error when activating action") next end))
+                    +(NO to (NotifyAction("action activation") next notifyAboutActionTimePeriod))
                     // or
-                    +(1 to (CancelActionActivation() next NotifyAction("error when activating action") next end))
-                    +(2 to (NotifyAction("action activation") next notifyAboutActionTimePeriod))
-                    +(3 to end)
+                    -(1 to (CancelActionActivation() next NotifyAction("error when activating action") next end))
+                    -(2 to (NotifyAction("action activation") next notifyAboutActionTimePeriod))
+                    -(3 to end)
                     // ... and so on
                 })
             }
@@ -37,7 +37,7 @@ class ExampleScenario(
 
         // May be should be a global constant
         val end = object : Operation() {
-            override val func: Scenario.() -> TransitionCondition = { STOP_EXECUTION() }
+            override val func: Scenario.() -> TransitionCondition = { STOP_EXECUTION }
         }
 
         val notifyAboutActionTimePeriod = NotifyAction("action time period") next end

@@ -11,7 +11,7 @@ class Specification : HashMap<TransitionCondition, Operation>() {
     }
 
     fun start(operation: Operation) {
-        this[START_EXECUTION()] = operation
+        this[START_EXECUTION] = operation
     }
 }
 

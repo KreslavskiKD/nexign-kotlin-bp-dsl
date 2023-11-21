@@ -5,7 +5,7 @@ abstract class Scenario : Operation() {
     val results: MutableMap<String, Any> = mutableMapOf()
 
     override val func: Scenario.() -> TransitionCondition
-        get() = { START_EXECUTION() }
+        get() = { START_EXECUTION }
 
     infix fun run(processFunc: (Map<String, Any>) -> Unit) {
         start(this)
