@@ -12,4 +12,18 @@ open class BinaryTC : TransitionCondition()
 object YES : BinaryTC()
 object NO : BinaryTC()
 
-class NumberedTC(val number: Int) : TransitionCondition()
+open class NumberedTC(val number: Int) : TransitionCondition()
+
+object NumberedTCMap {
+    val numberedTCs = mutableMapOf<Int, NumberedTC>()
+}
+
+fun getNumberedTC(num : Int) : TransitionCondition {
+    return if (NumberedTCMap.numberedTCs.containsKey(num)) {
+        NumberedTCMap.numberedTCs[num]!!
+    } else {
+        val ntc = NumberedTC(num)
+        NumberedTCMap.numberedTCs[num] = ntc
+        ntc
+    }
+}

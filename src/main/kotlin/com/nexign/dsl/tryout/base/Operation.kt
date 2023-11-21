@@ -74,6 +74,6 @@ class MultipleChoiceBuilder {
     }
 
     operator fun Pair<Int, Operation>.unaryMinus() {
-        choices += Pair(NumberedTC(this.first), this.second)
+        choices += Pair(getNumberedTC(this.first), this.second)
     }
 }
