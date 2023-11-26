@@ -14,16 +14,33 @@ object NO : BinaryTC()
 
 open class NumberedTC(val number: Int) : TransitionCondition()
 
+
 object NumberedTCMap {
-    val numberedTCs = mutableMapOf<Int, NumberedTC>()
+    private val numberedTCs = mutableMapOf<Int, NumberedTC>()
+
+    fun getNumberedTC(num : Int) : TransitionCondition {
+        return if (numberedTCs.containsKey(num)) {
+            numberedTCs[num]!!
+        } else {
+            val ntc = NumberedTC(num)
+            numberedTCs[num] = ntc
+            ntc
+        }
+    }
 }
 
-fun getNumberedTC(num : Int) : TransitionCondition {
-    return if (NumberedTCMap.numberedTCs.containsKey(num)) {
-        NumberedTCMap.numberedTCs[num]!!
-    } else {
-        val ntc = NumberedTC(num)
-        NumberedTCMap.numberedTCs[num] = ntc
-        ntc
+open class NamedTC(val name: String) : TransitionCondition()
+
+object NamedTCMap {
+    private val namedTCs = mutableMapOf<String, NamedTC>()
+
+    fun getNamedTC(name : String) : TransitionCondition {
+        return if (namedTCs.containsKey(name)) {
+            namedTCs[name]!!
+        } else {
+            val ntc = NamedTC(name)
+            namedTCs[name] = ntc
+            ntc
+        }
     }
 }
