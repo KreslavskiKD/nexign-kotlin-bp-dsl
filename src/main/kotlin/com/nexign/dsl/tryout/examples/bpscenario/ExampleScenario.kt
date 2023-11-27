@@ -1,8 +1,8 @@
-package com.nexign.dsl.tryout.bpexamplescenario
+package com.nexign.dsl.tryout.examples.bpscenario
 
 import com.nexign.dsl.tryout.base.*
-import com.nexign.dsl.tryout.bpexamplescenario.mock.Abonent
-import com.nexign.dsl.tryout.bpexamplescenario.mock.Action
+import com.nexign.dsl.tryout.examples.bpscenario.mock.Abonent
+import com.nexign.dsl.tryout.examples.bpscenario.mock.Action
 
 class ExampleScenario(
     private val abonent: Abonent,
@@ -10,7 +10,7 @@ class ExampleScenario(
 ) : Scenario()  {
 
     // This part can probably be automated in Scenario class, but I am not yet sure how
-    override val params: Map<String, Any>
+    override val storage: MutableMap<String, Any>
         get() = mutableMapOf(
             "abonent" to abonent,
             "action" to action,

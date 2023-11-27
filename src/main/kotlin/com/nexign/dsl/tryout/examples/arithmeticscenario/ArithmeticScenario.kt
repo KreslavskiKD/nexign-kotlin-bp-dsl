@@ -1,4 +1,4 @@
-package com.nexign.dsl.tryout.arithmeticscenario
+package com.nexign.dsl.tryout.examples.arithmeticscenario
 
 import com.nexign.dsl.tryout.base.*
 
@@ -7,8 +7,7 @@ class ArithmeticScenario(
     private val b: Double,
 ) : Scenario() {
 
-    override val params: Map<String, Any>
-        get() = mutableMapOf(
+    override val storage: MutableMap<String, Any> = mutableMapOf(
             "a" to a,
             "b" to b,
         )
@@ -19,5 +18,4 @@ class ArithmeticScenario(
                 no(PrintError())
             }
         )
-
 }

@@ -1,4 +1,4 @@
-package com.nexign.dsl.tryout.bpexamplescenario
+package com.nexign.dsl.tryout.examples.bpscenario
 
 import com.nexign.dsl.tryout.base.*
 

@@ -1,4 +1,4 @@
-package com.nexign.dsl.tryout.bpexamplescenario.mock
+package com.nexign.dsl.tryout.examples.bpscenario.mock
 
 data class Abonent(
     var id: String

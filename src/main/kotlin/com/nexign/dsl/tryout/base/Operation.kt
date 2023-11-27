@@ -1,7 +1,9 @@
 package com.nexign.dsl.tryout.base
 
+import com.nexign.dsl.tryout.base.description.OperationDescription
+
 open class Operation {
-    protected open val specification : Specification = Specification()
+    open val specification : Specification = Specification()
     protected open val func : Scenario.() -> TransitionCondition = { TransitionCondition() }
 
     fun start(scenario: Scenario) {
@@ -17,15 +19,30 @@ open class Operation {
         return
     }
 
-//    fun getSpecification(): SpecificationNode =
-//        SpecificationNode(
-//            operationName = this.javaClass.name,
-//            nestedOperations = nextOperations.map { it.getSpecification() },
-//            detailedDescription = ""            // here we will need to get some KDoc probably
-//        )
+    fun getOperationDescription() : OperationDescription =
+        OperationDescription(
+            operationName = this.javaClass.simpleName,
+            transitions = linkedMapOf(),
+            detailedDescription = "",
+        )
 
     infix fun next(op: Operation) : Operation {
-        specification[SINGLE_ROUTE] = op
+        if (specification[SINGLE_ROUTE] == null) {
+            specification[SINGLE_ROUTE] = op
+        } else {
+            var curLastOp = specification[SINGLE_ROUTE]
+            var nextOp = curLastOp?.specification?.get(SINGLE_ROUTE)
+
+            while (nextOp != null) {
+                curLastOp = nextOp
+                nextOp = curLastOp.specification[SINGLE_ROUTE]
+            }
+
+            if (curLastOp != null) {
+                curLastOp.specification[SINGLE_ROUTE] = op
+            }
+        }
+
         return this
     }
 
