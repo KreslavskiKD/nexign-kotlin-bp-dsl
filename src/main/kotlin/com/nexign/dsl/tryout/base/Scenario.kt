@@ -18,7 +18,7 @@ abstract class Scenario : Operation() {
         val startingOperation = specification[START_EXECUTION]
             ?: throw IllegalStateException("No starting operation in scenario")     // TODO should be some custom exception
 
-        var visited: Set<Operation> = setOf()
+        val visited: MutableSet<Operation> = mutableSetOf()
         val opsDescrs: MutableMap<Operation, OperationDescription> = mutableMapOf()
 
         var currentOps = listOf(startingOperation)
@@ -31,7 +31,7 @@ abstract class Scenario : Operation() {
                 for (nop in op.specification) {
                     if (!visited.contains(nop.value)) {
                         opsDescrs[nop.value] = nop.value.getOperationDescription()
-                        visited = visited.plus(nop.value)
+                        visited.add(nop.value)
                         nextOps.add(nop.value)
                     }
 

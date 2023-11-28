@@ -27,8 +27,33 @@ open class Operation {
         )
 
     infix fun next(op: Operation) : Operation {
-        if (specification[SINGLE_ROUTE] == null) {
-            specification[SINGLE_ROUTE] = op
+        val lastOp = getLastOperationInRow()
+        lastOp.specification[SINGLE_ROUTE] = op
+        return this
+    }
+
+    infix fun binary(init: BinaryChoice.() -> Unit) : Operation {
+        val binaryChoice = BinaryChoice()
+        binaryChoice.init()
+        val lastOp = getLastOperationInRow()
+        lastOp.specification[YES] = binaryChoice.yesOperation
+        lastOp.specification[NO] = binaryChoice.noOperation
+        return this
+    }
+
+    infix fun multiple(init: MultipleChoiceBuilder.() -> Unit) : Operation {
+        val mc = MultipleChoiceBuilder()
+        mc.init()
+        val lastOp = getLastOperationInRow()
+        for (p in mc.choices) {
+            lastOp.specification[p.first] = p.second
+        }
+        return this
+    }
+
+    private fun getLastOperationInRow(): Operation {
+        return if (specification[SINGLE_ROUTE] == null) {
+            this
         } else {
             var curLastOp = specification[SINGLE_ROUTE]
             var nextOp = curLastOp?.specification?.get(SINGLE_ROUTE)
@@ -38,29 +63,8 @@ open class Operation {
                 nextOp = curLastOp.specification[SINGLE_ROUTE]
             }
 
-            if (curLastOp != null) {
-                curLastOp.specification[SINGLE_ROUTE] = op
-            }
+            curLastOp!!
         }
-
-        return this
-    }
-
-    infix fun binary(init: BinaryChoice.() -> Unit) : Operation {
-        val binaryChoice = BinaryChoice()
-        binaryChoice.init()
-        specification[YES] = binaryChoice.yesOperation
-        specification[NO] = binaryChoice.noOperation
-        return this
-    }
-
-    infix fun multiple(init: MultipleChoiceBuilder.() -> Unit) : Operation {
-        val mc = MultipleChoiceBuilder()
-        mc.init()
-        for (p in mc.choices) {
-            specification[p.first] = p.second
-        }
-        return this
     }
 }
 

@@ -11,17 +11,16 @@ data class ScenarioDescription (
 ) {
     fun toText(): String {
         val sb = StringBuilder()
-        sb.append("Scenario name: $scenarioName\n")
-        sb.append("Detailed description: $detailedDescription\n\n")
+        sb.append("Scenario name: $scenarioName\nDetailed description: $detailedDescription\n\n")
 
-        var visited : Set<OperationDescription> = setOf()
+        val visited : MutableList<OperationDescription> = mutableListOf()
 
         var current = listOf(startingOperation)
         var next = listOf<OperationDescription>()
 
         while (current.isNotEmpty()) {
             for (od in current) {
-                visited = visited.plus(od)
+                visited.add(od)
                 sb.append(od.toText())
                 for (tr in od.transitions) {
                     if (!visited.contains(tr.value)) {
