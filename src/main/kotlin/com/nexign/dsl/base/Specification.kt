@@ -1,4 +1,4 @@
-package com.nexign.dsl.tryout.base
+package com.nexign.dsl.base
 
 @DslMarker
 annotation class SpecificationDSL

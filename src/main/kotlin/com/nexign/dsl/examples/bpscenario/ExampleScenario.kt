@@ -1,19 +1,8 @@
-package com.nexign.dsl.tryout.examples.bpscenario
+package com.nexign.dsl.examples.bpscenario
 
-import com.nexign.dsl.tryout.base.*
-import com.nexign.dsl.tryout.examples.bpscenario.mock.Abonent
-import com.nexign.dsl.tryout.examples.bpscenario.mock.Action
+import com.nexign.dsl.base.*
 
-class ExampleScenario(
-    private val abonent: Abonent,
-    private val action: Action,
-) : Scenario()  {
-
-    // This part can probably be automated in Scenario class, but I am not yet sure how
-    override val storage: MutableMap<String, Any> = mutableMapOf(
-            "abonent" to abonent,
-            "action" to action,
-        )
+class ExampleScenario(store: MutableMap<String, Any>) : Scenario(store)  {
 
     override val specification: Specification = specification (
             GetAbonentInfo() next CheckAbonentActions() binary {

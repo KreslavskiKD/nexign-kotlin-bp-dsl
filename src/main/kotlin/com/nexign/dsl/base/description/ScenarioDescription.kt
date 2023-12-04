@@ -1,8 +1,8 @@
-package com.nexign.dsl.tryout.base.description
+package com.nexign.dsl.base.description
 
-import com.nexign.dsl.tryout.base.NamedTC
-import com.nexign.dsl.tryout.base.NumberedTC
-import com.nexign.dsl.tryout.base.TransitionCondition
+import com.nexign.dsl.base.NamedTC
+import com.nexign.dsl.base.NumberedTC
+import com.nexign.dsl.base.TransitionCondition
 
 data class ScenarioDescription (
     val scenarioName: String,

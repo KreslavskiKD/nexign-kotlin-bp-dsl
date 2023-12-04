@@ -1,6 +1,6 @@
-package com.nexign.dsl.tryout.base
+package com.nexign.dsl.base
 
-import com.nexign.dsl.tryout.base.description.OperationDescription
+import com.nexign.dsl.base.description.OperationDescription
 
 open class Operation {
     open val specification : Specification = Specification()
@@ -51,6 +51,14 @@ open class Operation {
         return this
     }
 
+    inline fun <reified T : Any> Scenario.getFromStorage(name: String) : T {
+        return this@getFromStorage.getFromStorage(name, classOpFromStackTraces())
+    }
+
+    inline fun <reified T : Any> Scenario.putInStorage(name: String, value: T) {
+        this@putInStorage.putInStorage(name, value, classOpFromStackTraces())
+    }
+
     private fun getLastOperationInRow(): Operation {
         return if (specification[SINGLE_ROUTE] == null) {
             this
@@ -66,6 +74,14 @@ open class Operation {
             curLastOp!!
         }
     }
+}
+
+inline fun Scenario.checkIn() {
+    this@checkIn.operationCheckIn("${classOpFromStackTraces()} started")
+}
+
+inline fun Scenario.checkOut(transitionCondition: TransitionCondition) {
+    this@checkOut.operationCheckIn("${classOpFromStackTraces()} ended with transition condition ${transitionCondition.javaClass.simpleName}")
 }
 
 fun operation(init: Operation.() -> Unit) : Operation {
@@ -97,4 +113,11 @@ class MultipleChoiceBuilder {
     operator fun Pair<Int, Operation>.unaryMinus() {
         choices += Pair(NumberedTCMap.getNumberedTC(this.first), this.second)
     }
+}
+
+inline infix fun Scenario.functionBuilder(innerFunc: Scenario.() -> TransitionCondition) : TransitionCondition {
+    this.checkIn()
+    val tc = this.innerFunc()
+    this.checkOut(tc)
+    return tc
 }

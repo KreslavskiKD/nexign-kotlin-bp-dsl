@@ -1,6 +1,6 @@
-package com.nexign.dsl.tryout.examples.bpscenario
+package com.nexign.dsl.examples.bpscenario
 
-import com.nexign.dsl.tryout.base.*
+import com.nexign.dsl.base.*
 
 import kotlin.random.Random
 
